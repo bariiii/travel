@@ -2,17 +2,26 @@
 
 	'use strict';
 
-  $('.site-menu-toggle').click(function(){
-    var $this = $(this);
-    if ( $('body').hasClass('menu-open') ) {
-      $this.removeClass('open');
-      $('.js-site-navbar').fadeOut(400);
-      $('body').removeClass('menu-open');
-    } else {
-      $this.addClass('open');
-      $('.js-site-navbar').fadeIn(400);
-      $('body').addClass('menu-open');
-    }
+	// bootstrap dropdown hover
+
+  // loader
+  var loader = function() {
+    setTimeout(function() { 
+      if($('#loader').length > 0) {
+        $('#loader').removeClass('show');
+      }
+    }, 1);
+  };
+  loader();
+
+  // Stellar
+  $(window).stellar({
+    responsive: true,
+    parallaxBackgrounds: true,
+    parallaxElements: true,
+    horizontalScrolling: false,
+    hideDistantElements: false,
+    scrollProperty: 'scroll'
   });
 
 	
@@ -29,15 +38,11 @@
 	});
 
 
-
 	$('#dropdown04').on('show.bs.dropdown', function () {
 	  console.log('show');
 	});
 
-  // aos
-  AOS.init({
-    duration: 1000
-  });
+
 
 	// home slider
 	$('.home-slider').owlCarousel({
@@ -49,7 +54,6 @@
     nav:true,
     autoplayHoverPause: true,
     items: 1,
-    autoheight: true,
     navText : ["<span class='ion-chevron-left'></span>","<span class='ion-chevron-right'></span>"],
     responsive:{
       0:{
@@ -71,15 +75,15 @@
 	var majorCarousel = $('.js-carousel-1');
 	majorCarousel.owlCarousel({
     loop:true,
-    autoplay: true,
-    stagePadding: 7,
-    margin: 20,
+    autoplay: false,
+    stagePadding: 0,
+    margin: 10,
     animateOut: 'fadeOut',
     animateIn: 'fadeIn',
-    nav: true,
-    autoplayHoverPause: true,
+    nav: false,
+    dots: false,
+    autoplayHoverPause: false,
     items: 3,
-    navText : ["<span class='ion-chevron-left'></span>","<span class='ion-chevron-right'></span>"],
     responsive:{
       0:{
         items:1,
@@ -97,6 +101,19 @@
   	}
 	});
 
+  // cusotm owl navigation events
+  $('.custom-next').click(function(event){
+    event.preventDefault();
+    // majorCarousel.trigger('owl.next');
+    majorCarousel.trigger('next.owl.carousel');
+
+  })
+  $('.custom-prev').click(function(event){
+    event.preventDefault();
+    // majorCarousel.trigger('owl.prev');
+    majorCarousel.trigger('prev.owl.carousel');
+  })
+
 	// owl carousel
 	var major2Carousel = $('.js-carousel-2');
 	major2Carousel.owlCarousel({
@@ -106,7 +123,7 @@
     margin: 20,
     animateOut: 'fadeOut',
     animateIn: 'fadeIn',
-    nav: true,
+    nav: false,
     autoplayHoverPause: true,
     items: 4,
     navText : ["<span class='ion-chevron-left'></span>","<span class='ion-chevron-right'></span>"],
@@ -127,6 +144,33 @@
   	}
 	});
 
+
+  $('.nonloop-block-13').owlCarousel({
+      center: false,
+      items: 1,
+      loop: false,
+      stagePadding: 0,
+      margin: 20,
+      nav: true,
+      navText : ["<span class='ion-chevron-left'></span>","<span class='ion-chevron-right'></span>"],
+      responsive:{
+        600:{
+          margin: 20,
+          stagePadding: 10,
+          items: 2
+        },
+        1000:{
+          margin: 20,
+          stagePadding: 150,
+          items: 2
+        },
+        1200:{
+          margin: 20,
+          stagePadding: 150,
+          items: 3
+        }
+      }
+    });
 
 	var contentWayPoint = function() {
 		var i = 0;
@@ -163,6 +207,76 @@
 		} , { offset: '95%' } );
 	};
 	contentWayPoint();
+
+
+  $('.nonloop-block-11').owlCarousel({
+      center: false,
+      items:1,
+      loop:false,
+      stagePadding: 10,
+      margin:0,
+      nav: true,
+      navText: ['<span class="ion-android-arrow-back">', '<span class="ion-android-arrow-forward">'],
+      responsive:{
+        600:{
+          margin:20,
+          stagePadding: 10,
+          items:2
+        },
+        800:{
+          margin:20,
+          stagePadding: 10,
+          items:2
+        },
+        1000:{
+          margin:20,
+          stagePadding: 10,
+          items:3
+        },
+        1900:{
+          margin:20,
+          stagePadding: 200,
+          items:4
+        }
+      }
+    });
+
+
+  var counter = function() {
+    
+    $('#section-counter').waypoint( function( direction ) {
+
+      if( direction === 'down' && !$(this.element).hasClass('element-animated') ) {
+
+        var comma_separator_number_step = $.animateNumber.numberStepFactories.separator(',')
+        $('.number').each(function(){
+          var $this = $(this),
+            num = $this.data('number');
+            console.log(num);
+          $this.animateNumber(
+            {
+              number: num,
+              numberStep: comma_separator_number_step
+            }, 7000
+          );
+        });
+        
+      }
+
+    } , { offset: '95%' } );
+
+  }
+  counter();
+
+  $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+    disableOn: 700,
+    type: 'iframe',
+    mainClass: 'mfp-fade',
+    removalDelay: 160,
+    preloader: false,
+
+    fixedContentPos: false
+  });
 
 
 
